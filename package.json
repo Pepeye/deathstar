@@ -5,6 +5,12 @@
   "main": "index.js",
   "author": "Pepeye",
   "license": "MIT",
+  "scripts": {
+    "build": "babel src -d dist",
+    "prestart": "yarn build",
+    "dev": "nodemon --exec babel-node src/index.js",
+    "start": "node dist"
+  },
   "devDependencies": {
     "babel-cli": "^6.23.0",
     "babel-eslint": "^7.1.1",
@@ -26,6 +32,7 @@
   "dependencies": {
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.17.0",
+    "compression": "^1.6.2",
     "cors": "^2.8.1",
     "express": "^4.15.0",
     "express-jwt": "^5.1.0",

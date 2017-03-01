@@ -9,8 +9,7 @@ import compression from 'compression'
 import bodyParser from 'body-parser'
 import morgan from 'morgan'
 
-
-const routes = require('./routes')
+// const routes = require('./routes')
 
 const app = express()
 
