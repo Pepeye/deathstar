@@ -1,5 +1,6 @@
 import fs from 'fs'
 import path from 'path'
+import chalk from 'chalk'
 import Schema from '../graph/schema'
 import { graphql } from 'graphql'
 import { introspectionQuery, printSchema } from 'graphql/utilities'
@@ -9,17 +10,22 @@ import { introspectionQuery, printSchema } from 'graphql/utilities'
   const JSON_SCHEMA = path.join(__dirname, '../graph/schema.json')
   const GRAPHQL_SCHEMA = path.join(__dirname, '../graph/schema.graphql')
 
+  console.log(chalk.yellow('[schema] Started creating JSON Scehma'))
+
   try {
     let result = await (graphql(Schema, introspectionQuery))
-    console.dir(result, { colors: true, depth: 2 })
     if (result.errors) {
       throw result.errors
     } else {
       fs.writeFileSync(JSON_SCHEMA, JSON.stringify(result, null, 2))
       fs.writeFileSync(GRAPHQL_SCHEMA, printSchema(Schema))
+      console.log(chalk.blue('[schema] Finished creating JSON Scehma'))
     }
   } catch (err) {
-    console.error(JSON.stringify(err, null, 2))
+    console.error(
+      chalk.red('[error] Error introspecting schema: '),
+      JSON.stringify(err, null, 2)
+    )
   } finally {
     process.exit()
   }
