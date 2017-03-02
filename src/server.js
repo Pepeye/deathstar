@@ -20,7 +20,6 @@ process.env.SECRET = 'somesupersecretpasswordthatishardtoguess'
  */
 app.use(helmet())
 app.use(cors())
-// app.use(csrf())
 app.use(compression())
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(bodyParser.json())
@@ -36,9 +35,19 @@ if (config.environment !== 'test') {
   * Define routes
   */
 app.get('/', (req, res) => {
-  res.json({ message: 'Welcome Stormtrooper!' })
+  let data = { message: `'Welcome ${config.name}!'` }
+  if (config.environment !== 'production') {
+    data = {
+      ...data,
+      environment: config.environment,
+      host: config.server.host,
+      port: config.server.port,
+      date: Date.now()
+    }
+  }
+  res.json(data)
 })
 
-app.use('/', routes)
+// app.use('/', routes)
 
 module.exports = app

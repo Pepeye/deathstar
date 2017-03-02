@@ -8,8 +8,8 @@
   "scripts": {
     "build": "babel src -d dist",
     "prestart": "yarn build",
-    "dev": "nodemon --exec babel-node src/index.js",
-    "start": "node dist"
+    "start": "NODE_ENV=production node dist",
+    "watch": "nodemon --exec babel-node src/index.js"
   },
   "devDependencies": {
     "babel-cli": "^6.23.0",

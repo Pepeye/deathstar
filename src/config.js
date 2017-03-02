@@ -1,6 +1,6 @@
 const APP_NAME = 'deathstar'
 const ENV = process.env.NODE_ENV || 'dev'
-const PORT = process.env.PORT || 3000
+const PORT = process.env.PORT || 3030
 const HOST = process.env.HOST || 'localhost'
 
 const config = {
