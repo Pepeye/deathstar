@@ -1,22 +1,21 @@
 import { GraphQLObjectType } from 'graphql'
 import { globalIdField } from 'graphql-relay'
-import { nodeInterface, registerType } from '../../definitions/node'
+import { nodeInterface, registerType } from '../node'
 
-import { GraphQLActorAPI } from '../actor'
-import { GraphQLDirectorAPI } from '../director'
-import { GraphQLMovieAPI } from '../movie'
+// import queries for each node
+import { GraphQLUserQueries } from '../user'
 
 let rootFields = {
-  ...GraphQLActorAPI,
-  ...GraphQLDirectorAPI,
-  ...GraphQLMovieAPI
+  ...GraphQLUserQueries
 }
 
-export default registerType(new GraphQLObjectType({
+const viewerType = new GraphQLObjectType({
   name: 'Viewer',
   fields: () => ({
     id: globalIdField('Viewer'),
     ...rootFields
   }),
   interfaces: [ nodeInterface ]
-}))
+})
+
+export default registerType(viewerType)

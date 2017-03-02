@@ -3,11 +3,16 @@ import config from './config'
 
 // import core server libraries
 import express from 'express'
+import graphqlHTTP from 'express-graphql'
 import helmet from 'helmet'
 import cors from 'cors'
 import compression from 'compression'
 import bodyParser from 'body-parser'
 import morgan from 'morgan'
+
+// import graph files
+import loaders from './graph/loaders'
+import schema from './graph/schema'
 
 // const routes = require('./routes')
 
@@ -47,6 +52,17 @@ app.get('/', (req, res) => {
   }
   res.json(data)
 })
+
+/**
+* GraphQL routes
+*/
+app.use('/graphql', graphqlHTTP(request => ({
+  schema,
+  graphiql: process.env.NODE_ENV !== 'production',
+  context: {
+    loaders
+  }
+})))
 
 // app.use('/', routes)
 

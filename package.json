@@ -9,8 +9,9 @@
     "build": "babel src -d dist",
     "flow": "flow; test $? -eq 0 -o $? -eq 2",
     "prestart": "yarn build",
+    "schema": "babel-node ./src/tasks/updateSchema.js",
     "start": "NODE_ENV=production node dist",
-    "watch": "nodemon --exec babel-node src/index.js"
+    "watch": "yarn schema && nodemon --exec babel-node src/index.js"
   },
   "devDependencies": {
     "babel-cli": "^6.23.0",

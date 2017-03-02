@@ -6,6 +6,7 @@ import {
 export const GraphQLTypes = {}
 
 export function registerType (type) {
+  // register type in global object
   GraphQLTypes[type.name] = type
   return type
 }

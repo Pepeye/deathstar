@@ -1,4 +1,4 @@
-import mongoose from 'mongoose'
+import mongoose from '../../lib/mongoose'
 import bcrypt from 'bcryptjs'
 import jwt from 'jsonwebtoken'
 const SALT = 10
@@ -95,7 +95,7 @@ User.statics.findByCredentials = function (email, password) {
   return User.findOne({ email })
     .then(user => {
       if (!user) {
-        return Promise.reject()
+        return Promise.reject(new Error('Invalid login'))
       }
 
       return new Promise((resolve, reject) => {
