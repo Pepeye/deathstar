@@ -18,6 +18,7 @@ export const GraphQLUser = new GraphQLObjectType({
   description: 'This is a User type',
   fields: () => ({
     id: globalIdField('Actor', obj => obj._id),
+    _id: { type: GraphQLString, description: 'User identifier' },
     firstname: { type: GraphQLString, description: 'First name of user' },
     lastname: { type: GraphQLString, description: 'Last name of user' },
     email: { type: GraphQLString, description: 'Email address of user' },
@@ -44,7 +45,7 @@ const UserInputFields = {
   email: { type: GraphQLString, description: 'Email address of user' },
   password: { type: GraphQLString, description: 'Hashed password of user' },
   active: { type: GraphQLBoolean, description: 'Status of user account' },
-  roles: { type: new GraphQLList(GraphQLString), description: 'List of user roles' },
+  roles: { type: new GraphQLList(GraphQLString), description: 'List of user roles' }
 }
 
 // register type as global node

@@ -47,6 +47,9 @@ type User implements Node {
   # The ID of an object
   id: ID!
 
+  # User identifier
+  _id: String
+
   # First name of user
   firstname: String
 

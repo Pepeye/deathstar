@@ -24,7 +24,8 @@ export default {
     args: connectionArgs,
     resolve: (root, args, { user, loaders }) => {
       // console.log(JSON.stringify(loaders, null, 2))
-      connectionFromMongooseQuery(loaders.users.all(user), args)
+      // return loaders.users.all(user)
+      return connectionFromMongooseQuery(loaders.users.all(user), args)
     }
   }
 }
