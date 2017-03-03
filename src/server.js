@@ -56,13 +56,18 @@ app.get('/', (req, res) => {
 /**
 * GraphQL routes
 */
-app.use('/graphql', graphqlHTTP(request => ({
-  schema,
-  graphiql: process.env.NODE_ENV !== 'production',
-  context: {
-    loaders
+app.use('/graphql', graphqlHTTP(req => {
+  const user = req.user || null
+  // const { user } = await getUser(req.header.authorization)
+  return {
+    schema,
+    graphiql: process.env.NODE_ENV !== 'production',
+    context: {
+      user,
+      loaders: loaders()
+    }
   }
-})))
+}))
 
 // app.use('/', routes)
 

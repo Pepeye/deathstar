@@ -48,6 +48,7 @@
     "jsonwebtoken": "^7.3.0",
     "mongoose": "^4.8.5",
     "morgan": "^1.8.1",
-    "node-uuid": "^1.4.7"
+    "node-uuid": "^1.4.7",
+    "relay-mongodb-connection": "^2.1.0"
   }
 }

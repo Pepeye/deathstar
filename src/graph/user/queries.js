@@ -3,13 +3,10 @@ import {
   GraphQLString
 } from 'graphql'
 
-import {
-  connectionArgs,
-  connectionFromPromisedArray
-} from 'graphql-relay'
-
-import { GraphQLUser, GraphQLUserConnection } from './schema'
-import User from './model'
+import { connectionArgs } from 'graphql-relay'
+import { connectionFromMongooseQuery } from 'relay-mongodb-connection'
+import { GraphQLUser, GraphQLUserConnection } from './type'
+// import User from './model'
 
 export default {
   user: {
@@ -18,13 +15,16 @@ export default {
     args: {
       _id: { type: new GraphQLNonNull(GraphQLString) }
     },
-    resolve: (root, { _id }, { loaders }) => loaders.User.load(_id)
+    resolve: (root, { _id }, { user, loaders }) => loaders.users.load(user, _id)
   },
 
   users: {
-    description: 'a list of movies',
+    description: 'a list of users',
     type: GraphQLUserConnection,
     args: connectionArgs,
-    resolve: (root, args) => connectionFromPromisedArray(User.find({}), args)
+    resolve: (root, args, { user, loaders }) => {
+      // console.log(JSON.stringify(loaders, null, 2))
+      connectionFromMongooseQuery(loaders.users.all(user), args)
+    }
   }
 }

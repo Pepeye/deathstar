@@ -1,0 +1,25 @@
+mutation register ($data:UserInputs!){
+	signup(data: $data) {
+	  firstname
+    lastname
+		email
+		active
+		roles
+	}
+}
+
+# User input data
+
+# {
+#   "data": {
+#     "firstname": "Goose",
+#     "lastname": "Gander",
+#     "email": "sam@stratbox.io",
+#     "password": "password",
+#     "active": true,
+#     "roles": [
+#       "jedi",
+#       "rebelion"
+#     ]
+#   }
+# }

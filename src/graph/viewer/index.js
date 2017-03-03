@@ -1,1 +1,1 @@
-export { default as GraphQLViewer } from './schema'
+export { default as GraphQLViewer } from './type'

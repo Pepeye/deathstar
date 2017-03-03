@@ -1,3 +1,8 @@
+type Mutation {
+  # sign up as new user
+  signup(data: UserInputs!): User
+}
+
 # An object with an ID
 interface Node {
   # The id of the object.
@@ -61,7 +66,7 @@ type User implements Node {
   roles: [String]
 
   # List of user auth tokens
-  token: [Token]
+  tokens: [Token]
 }
 
 # A connection to a list of items.
@@ -82,6 +87,27 @@ type UserEdge {
   cursor: String!
 }
 
+# Fields/args to add a new user
+input UserInputs {
+  # First name of user
+  firstname: String
+
+  # Last name of user
+  lastname: String
+
+  # Email address of user
+  email: String
+
+  # Hashed password of user
+  password: String
+
+  # Status of user account
+  active: Boolean
+
+  # List of user roles
+  roles: [String]
+}
+
 type Viewer implements Node {
   # The ID of an object
   id: ID!
@@ -89,6 +115,6 @@ type Viewer implements Node {
   # Find user by id
   user(_id: String!): User
 
-  # a list of movies
+  # a list of users
   users(after: String, first: Int, before: String, last: Int): UserConnection
 }

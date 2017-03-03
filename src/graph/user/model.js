@@ -1,113 +1,67 @@
-import mongoose from '../../lib/mongoose'
-import bcrypt from 'bcryptjs'
-import jwt from 'jsonwebtoken'
-const SALT = 10
+import DataLoader from 'dataloader'
+import Schema from './schema'
 
-const User = new mongoose.Schema({
-  firstName: { type: String, required: true, trim: true },
-  lastName: { type: String, required: true, trim: true },
-  email: { type: String, required: true, trim: true, index: { unique: true } },
-  password: { type: String, required: true },
-  active: { type: Boolean, default: true },
-  roles: [String],
-  tokens: [{
-    access: { type: String, required: true },
-    token: { type: String, required: true }
-  }]
-})
+// export default {
+//   users: new DataLoader(ids => Model.load(ids))
+// }
+//
+// export default {
+//   users: new DataLoader(ids => genModels(authToken, ids))
+// }
 
-/**
- * Pre-save hooks
- */
-User.pre('save', function (next) {
-  let user = this
-  if (!user.isModified('password')) return next()
+export default class User {
+  // items is a new Dataloader
+  // static items = new DataLoader(
+  //   ids => ids.map(
+  //     id => Schema.findOne({ _id: id })
+  //   )
+  // )
 
-  // generate a salt
-  bcrypt.genSalt(SALT, (err, salt) => {
-    if (err) return next(err)
+  // static items = new DataLoader(ids => Schema.where( { '$in': ids } )
+  static items = new DataLoader(ids => Schema.find().where('_id').in(ids))
 
-    // hash the password
-    bcrypt.hash(user.password, salt, (err, hash) => {
-      if (err) return next(err)
-
-      user.password = hash
-      next()
-    })
-  })
-})
-
-/**
- * Methods
- */
-
-User.methods.comparePassword = function (suppliedPassword, cb) {
-  bcrypt.compare(suppliedPassword, this.password, (err, result) => {
-    if (err) return cb(err)
-    return (cb, result)
-  })
-}
-
-User.methods.toJSON = function () {
-  let user = this
-  let { _id, firstName, lastName, email, active, roles } = user.toObject()
-  return { _id, firstName, lastName, email, active, roles }
-}
-
-User.methods.generateAuthToken = function () {
-  let user = this
-  let access = 'local'
-  let params = { _id: user._id.toHexString(), access }
-  let token = jwt.sign(params, process.env.SECRET).toString()
-
-  user.tokens.push({ access, token })
-  // return promise
-  return user.save().then(() => {
-    // return token value
-    return token
-  })
-}
-
-/**
- * Statics
- */
-
-User.statics.findByToken = function (token) {
-  let User = this
-  let decoded
-
-  try {
-    decoded = jwt.verify(token, process.env.SECRET)
-  } catch (err) {
-    return Promise.reject(err)
+  constructor (data, viewer) {
+    this.id = data.id
+    this._id = data._id
+    this.firstname = data.firstname
+    this.lastname = data.lastname
+    this.email = data.email
+    this.active = data.active
+    this.roles = data.roles
+    this.tokens = data.tokens
+    // you can only see your own email, and your active status
+    // if (viewer && viewer._id.equals(data._id)) {
+    //   this.email = data.email
+    //   this.active = data.active
+    //   this.roles = data.roles
+    //   this.tokens = data.tokens
+    // }
   }
 
-  return User.findOne({
-    '_id': decoded._id,
-    'tokens.token': token,
-    'tokens.access': 'local'
-  })
+  static viewerCanSee (viewer, data) {
+    // Anyone can see another user
+    return true
+  }
+
+  static async load (viewer, id) {
+    if (!id) return null
+    let data = await User.items.load(id)
+    if (!data) return null
+    return User.viewerCanSee(viewer, data) ? new User(data, viewer) : null
+  }
+
+  static async all (viewer){
+    let ids = await Schema.find({}).select('_id')
+    return User.items.load(ids)
+  }
+  // static async many (viewer) {
+  //   let data = await connectionFromMongooseQuery(User.find({}), ...args)
+  // }
+
+  // static async many (viewer, args) {
+  //   const where = args.search ? { name: { $regex: new RegExp(`^${args.search}`, 'ig') } } : {}
+  //   const users = Model.find(where, {})
+  //
+  //   return ConnectionFromMongoCursor.connectionFromMongoCursor(viewer, users, args, Model.load)
+  // }
 }
-
-User.statics.findByCredentials = function (email, password) {
-  let User = this
-
-  return User.findOne({ email })
-    .then(user => {
-      if (!user) {
-        return Promise.reject(new Error('Invalid login'))
-      }
-
-      return new Promise((resolve, reject) => {
-        bcrypt.compare(password, user.password, (err, result) => {
-          if (result) {
-            resolve(user)
-          } else {
-            reject(err)
-          }
-        })
-      })
-    })
-}
-
-export default mongoose.model('User', User)
