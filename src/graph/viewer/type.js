@@ -10,7 +10,7 @@ let rootFields = {
 }
 
 const viewerType = new GraphQLObjectType({
-  name: 'Viewer',
+  name: 'viewer',
   fields: () => ({
     id: globalIdField('Viewer'),
     ...rootFields

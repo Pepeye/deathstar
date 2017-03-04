@@ -1,7 +1,7 @@
-import { users } from './user'
+import { user } from './user'
 
 const rootLoaders = {
-  users
+  user
 }
 
 export default function loaders () {

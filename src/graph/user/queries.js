@@ -14,7 +14,7 @@ export default {
     args: {
       _id: { type: new GraphQLNonNull(GraphQLString) }
     },
-    resolve: (root, { _id }, { user, loaders }) => loaders.users.load(user, _id)
+    resolve: (root, { _id }, { user, loaders }) => loaders.user.load(user, _id)
   },
 
   users: {
@@ -26,7 +26,7 @@ export default {
         .find({})
         .then(docs => docs.map(doc => doc.id))
 
-      return connectionFromPromisedArray(loaders.users.many(user, keys), args)
+      return connectionFromPromisedArray(loaders.user.many(user, keys), args)
     }
   }
 }
