@@ -1,0 +1,31 @@
+query {
+  node(id: "dXNlcjo1OGJhYjNiZmFjYzlmNzllNjEzNzM2ZDA=") {
+    id
+    __typename
+  }
+  viewer {
+    id
+    users {
+      edges {
+        cursor
+        node {
+          id
+          _id
+          firstname
+          lastname
+          email
+          tokens {
+            auth
+            token
+          }
+        }
+      }
+      pageInfo {
+        hasNextPage
+        hasPreviousPage
+        startCursor
+        endCursor
+      }
+    }
+  }
+}

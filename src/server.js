@@ -9,6 +9,7 @@ import cors from 'cors'
 import compression from 'compression'
 import bodyParser from 'body-parser'
 import morgan from 'morgan'
+import { genUser } from './middleware/auth'
 
 // import graph files
 import loaders from './graph/loaders'
@@ -56,9 +57,9 @@ app.get('/', (req, res) => {
 /**
 * GraphQL routes
 */
-app.use('/graphql', graphqlHTTP(req => {
-  const user = req.user || null
-  // const { user } = await getUser(req.header.authorization)
+app.use('/graphql', graphqlHTTP(async (req) => {
+  const { user } = await genUser(req.header('X-Auth-Token'))
+  console.log(JSON.stringify(user, null, 2))
   return {
     schema,
     graphiql: process.env.NODE_ENV !== 'production',
