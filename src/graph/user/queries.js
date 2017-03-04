@@ -3,10 +3,9 @@ import {
   GraphQLString
 } from 'graphql'
 
-import { connectionArgs } from 'graphql-relay'
-import { connectionFromMongooseQuery } from 'relay-mongodb-connection'
+import { connectionArgs, connectionFromPromisedArray } from 'graphql-relay'
 import { GraphQLUser, GraphQLUserConnection } from './type'
-// import User from './model'
+import User from './schema'
 
 export default {
   user: {
@@ -22,10 +21,12 @@ export default {
     description: 'a list of users',
     type: GraphQLUserConnection,
     args: connectionArgs,
-    resolve: (root, args, { user, loaders }) => {
-      // console.log(JSON.stringify(loaders, null, 2))
-      // return loaders.users.all(user)
-      return connectionFromMongooseQuery(loaders.users.all(user), args)
+    resolve: async (root, args, { user, loaders }) => {
+      let keys = await User
+        .find({})
+        .then(docs => docs.map(doc => doc.id))
+
+      return connectionFromPromisedArray(loaders.users.many(user, keys), args)
     }
   }
 }
