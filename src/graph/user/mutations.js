@@ -13,12 +13,14 @@ export default {
     args: {
       data: { type: new GraphQLNonNull(GraphQLUserInput) }
     },
-    resolve: (root, { data }) => {
+    resolve: (root, { data }, ctx) => {
       const user = new User(data)
       return user.save()
         .then(() => {
           return user.generateAuthToken()
             .then(token => {
+              // set context variable
+              ctx.user = { _id: user._id, token }
               return { user, token }
             })
         })

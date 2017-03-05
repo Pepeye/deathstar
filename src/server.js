@@ -4,12 +4,14 @@ import config from './config'
 // import core server libraries
 import express from 'express'
 import graphqlHTTP from 'express-graphql'
+import jwt from 'express-jwt'
 import helmet from 'helmet'
 import cors from 'cors'
 import compression from 'compression'
 import bodyParser from 'body-parser'
 import morgan from 'morgan'
-import { genUser } from './middleware/auth'
+import { printSchema } from 'graphql/utilities'
+import { formatError, getUser } from './middleware'
 
 // import graph files
 import loaders from './graph/loaders'
@@ -34,12 +36,19 @@ if (config.environment !== 'test') {
   app.use(morgan('dev'))
 }
 
+let authenticate = jwt({
+  secret: process.env.SECRET,
+  credentialsRequired: false,
+  userProperty: 'user'
+})
+
 /**
  * API routes / endpoints
  */
- /**
-  * Define routes
-  */
+
+/**
+ * Define routes
+ */
 app.get('/', (req, res) => {
   let data = { message: `'Welcome ${config.name}!'` }
   if (config.environment !== 'production') {
@@ -57,18 +66,32 @@ app.get('/', (req, res) => {
 /**
 * GraphQL routes
 */
-app.use('/graphql', graphqlHTTP(async (req) => {
-  const { user } = await genUser(req.header('X-Auth-Token'))
-  console.log(JSON.stringify(user, null, 2))
+
+app.use('/graphql', authenticate, graphqlHTTP(async (req) => {
+  const { user } = await getUser(req.headers.authorization)
+  console.log(JSON.stringify({ user }, null, 2))
+  let startTime = Date.now()
   return {
     schema,
     graphiql: process.env.NODE_ENV !== 'production',
     context: {
       user,
       loaders: loaders()
-    }
+    },
+    extensions ({ document, variables, operationName, result }) {
+      return {
+        runtime: Date.now() - startTime,
+        ip: req.ip
+      }
+    },
+    formatError
   }
 }))
+
+app.use('/schema', (req, res, next) => {
+  res.set('Content-Type', 'text/plain')
+  res.send(printSchema(schema))
+})
 
 // app.use('/', routes)
 
