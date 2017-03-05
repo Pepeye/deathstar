@@ -20,7 +20,7 @@
               "args": [],
               "type": {
                 "kind": "OBJECT",
-                "name": "viewer",
+                "name": "Viewer",
                 "ofType": null
               },
               "isDeprecated": false,
@@ -61,7 +61,7 @@
         },
         {
           "kind": "OBJECT",
-          "name": "viewer",
+          "name": "Viewer",
           "description": null,
           "fields": [
             {
@@ -101,7 +101,7 @@
               ],
               "type": {
                 "kind": "OBJECT",
-                "name": "user",
+                "name": "User",
                 "ofType": null
               },
               "isDeprecated": false,
@@ -154,7 +154,7 @@
               ],
               "type": {
                 "kind": "OBJECT",
-                "name": "userConnection",
+                "name": "UserConnection",
                 "ofType": null
               },
               "isDeprecated": false,
@@ -200,12 +200,12 @@
           "possibleTypes": [
             {
               "kind": "OBJECT",
-              "name": "viewer",
+              "name": "Viewer",
               "ofType": null
             },
             {
               "kind": "OBJECT",
-              "name": "user",
+              "name": "User",
               "ofType": null
             }
           ]
@@ -232,7 +232,7 @@
         },
         {
           "kind": "OBJECT",
-          "name": "user",
+          "name": "User",
           "description": "This is a User type",
           "fields": [
             {
@@ -424,7 +424,7 @@
         },
         {
           "kind": "OBJECT",
-          "name": "userConnection",
+          "name": "UserConnection",
           "description": "A connection to a list of items.",
           "fields": [
             {
@@ -452,7 +452,7 @@
                 "name": null,
                 "ofType": {
                   "kind": "OBJECT",
-                  "name": "userEdge",
+                  "name": "UserEdge",
                   "ofType": null
                 }
               },
@@ -534,7 +534,7 @@
         },
         {
           "kind": "OBJECT",
-          "name": "userEdge",
+          "name": "UserEdge",
           "description": "An edge in a connection.",
           "fields": [
             {
@@ -543,7 +543,7 @@
               "args": [],
               "type": {
                 "kind": "OBJECT",
-                "name": "user",
+                "name": "User",
                 "ofType": null
               },
               "isDeprecated": false,
@@ -597,7 +597,7 @@
               ],
               "type": {
                 "kind": "OBJECT",
-                "name": "user",
+                "name": "User",
                 "ofType": null
               },
               "isDeprecated": false,

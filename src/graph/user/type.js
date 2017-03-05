@@ -14,10 +14,10 @@ import { GraphQLToken } from '../common/types'
 
 // define type
 export const GraphQLUser = new GraphQLObjectType({
-  name: 'user',
+  name: 'User',
   description: 'This is a User type',
   fields: () => ({
-    id: globalIdField('user', obj => obj._id),
+    id: globalIdField('User', obj => obj._id),
     _id: { type: GraphQLString, description: 'User identifier' },
     firstname: { type: GraphQLString, description: 'First name of user' },
     lastname: { type: GraphQLString, description: 'Last name of user' },

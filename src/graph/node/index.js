@@ -21,8 +21,8 @@ export const { nodeInterface, nodeField } = nodeDefinitions(
     let { type, id } = fromGlobalId(globalId)
 
     /* return viewr OR load item from dataloaders */
-    if (type === 'viewer') return { type, ...viewer }
-    let loader = context.loaders[type]
+    if (type === 'Viewer') return { type, ...viewer }
+    let loader = context.loaders[type.toLowerCase()]
     let item = await loader.load(id)
     return { type, ...item }
   },
