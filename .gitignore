@@ -3,5 +3,5 @@ dist
 flow-typed
 node_modules
 *.log
-**src/graph/schema.graphql
-**src/graph/schema.json
+schema.graphql
+schema.json
