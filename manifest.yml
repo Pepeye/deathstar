@@ -1,0 +1,7 @@
+---
+applications:
+- name: deathstar
+  memory: 256M
+  instances: 1
+  buildpack: https://github.com/cloudfoundry/nodejs-buildpack
+  command: MONGOURI=mongodb://pepeye:R28wc2UhNW0=@ds135700.mlab.com:35700/deathstar yarn serve

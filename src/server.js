@@ -69,11 +69,11 @@ app.get('/', (req, res) => {
 
 app.use('/graphql', authenticate, graphqlHTTP(async (req) => {
   const { user } = await getUser(req.headers.authorization)
-  console.log(JSON.stringify({ user }, null, 2))
   let startTime = Date.now()
   return {
     schema,
-    graphiql: process.env.NODE_ENV !== 'production',
+    // graphiql: process.env.NODE_ENV !== 'production',
+    graphiql: true,
     context: {
       user,
       loaders: loaders()
