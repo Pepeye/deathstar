@@ -1,14 +1,6 @@
 import DataLoader from 'dataloader'
 import Schema from './schema'
 
-// export default {
-//   users: new DataLoader(ids => Model.load(ids))
-// }
-//
-// export default {
-//   users: new DataLoader(ids => genModels(authToken, ids))
-// }
-
 const loadFn = async (keys) => {
   return keys.map(key => Schema.findOne({ _id: key }))
 }
