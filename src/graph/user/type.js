@@ -18,7 +18,7 @@ export const GraphQLUser = new GraphQLObjectType({
   description: 'This is a User type',
   fields: () => ({
     id: globalIdField('User', obj => obj._id),
-    _id: { type: GraphQLString, description: 'User identifier' },
+    _id: { type: GraphQLString, description: 'User document identifier' },
     firstname: { type: GraphQLString, description: 'First name of user' },
     lastname: { type: GraphQLString, description: 'Last name of user' },
     email: { type: GraphQLString, description: 'Email address of user' },
