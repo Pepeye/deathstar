@@ -22,11 +22,11 @@ export const getUser = async (token) => {
   return { _id: user.id, token }
 }
 
-export const getAuthToken = async (req) => {
+export const getAuthToken = (req) => {
   if (req.headers.authorization && req.headers.authorization.split(' ')[0] === 'Bearer') {
-    return await req.headers.authorization.split(' ')[1]
+    return req.headers.authorization.split(' ')[1]
   } else if (req.query && req.query.token) {
-    return await req.query.token
+    return req.query.token
   }
   return null
 }

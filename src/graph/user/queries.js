@@ -14,19 +14,19 @@ export default {
     args: {
       _id: { type: new GraphQLNonNull(GraphQLString) }
     },
-    resolve: (root, { _id }, { user, loaders }) => loaders.user.load(user, _id)
+    resolve: (root, { _id }, { viewer, loaders }) => loaders.user.load(viewer, _id)
   },
 
   users: {
     description: 'a list of users',
     type: GraphQLUserConnection,
     args: connectionArgs,
-    resolve: async (root, args, { user, loaders }) => {
+    resolve: async (root, args, { viewer, loaders }) => {
       let keys = await User
         .find({})
         .then(docs => docs.map(doc => doc.id))
 
-      return connectionFromPromisedArray(loaders.user.many(user, keys), args)
+      return connectionFromPromisedArray(loaders.user.many(viewer, keys), args)
     }
   }
 }

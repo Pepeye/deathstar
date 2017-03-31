@@ -39,7 +39,7 @@ if (config.environment !== 'test') {
 const authenticate = jwt({
   secret: process.env.SECRET,
   credentialsRequired: false,
-  userProperty: 'user'
+  getToken: getAuthToken
 })
 
 /**
@@ -67,16 +67,18 @@ app.get('/', (req, res) => {
 * GraphQL routes
 */
 
-app.use('/graphql', authenticate, graphqlHTTP(async (req) => {
+// app.use('/graphql', authenticate, graphqlHTTP(async (req) => {
+app.use('/graphql', graphqlHTTP(async (req) => {
   const token = await getAuthToken(req)
-  const user = await getUser(token)
+  const viewer = await getUser(token)
   let startTime = Date.now()
   return {
     schema,
     graphiql: process.env.NODE_ENV !== 'production',
     // graphiql: true,
     context: {
-      user,
+      viewer,
+      token,
       loaders: loaders()
     },
     extensions ({ document, variables, operationName, result }) {
@@ -89,7 +91,7 @@ app.use('/graphql', authenticate, graphqlHTTP(async (req) => {
   }
 }))
 
-app.use('/schema', (req, res, next) => {
+app.use('/schema', authenticate, (req, res, next) => {
   res.set('Content-Type', 'text/plain')
   res.send(printSchema(schema))
 })
