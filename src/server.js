@@ -11,7 +11,7 @@ import compression from 'compression'
 import bodyParser from 'body-parser'
 import morgan from 'morgan'
 import { printSchema } from 'graphql/utilities'
-import { formatError, getUser } from './middleware'
+import { formatError, getUser, getAuthToken } from './middleware'
 
 // import graph files
 import loaders from './graph/loaders'
@@ -36,7 +36,7 @@ if (config.environment !== 'test') {
   app.use(morgan('dev'))
 }
 
-let authenticate = jwt({
+const authenticate = jwt({
   secret: process.env.SECRET,
   credentialsRequired: false,
   userProperty: 'user'
@@ -68,12 +68,13 @@ app.get('/', (req, res) => {
 */
 
 app.use('/graphql', authenticate, graphqlHTTP(async (req) => {
-  const { user } = await getUser(req.headers.authorization)
+  const token = await getAuthToken(req)
+  const user = await getUser(token)
   let startTime = Date.now()
   return {
     schema,
-    // graphiql: process.env.NODE_ENV !== 'production',
-    graphiql: true,
+    graphiql: process.env.NODE_ENV !== 'production',
+    // graphiql: true,
     context: {
       user,
       loaders: loaders()

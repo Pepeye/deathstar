@@ -1,7 +1,7 @@
-import User from '../graph/user'
+import { User } from '../graph/user'
 
 const authenticate = (req, res, next) => {
-  let token = req.header.authorization
+  let token = getAuthToken(req.headers.authorization)
   return User.findByToken(token)
     .then((user) => {
       if (!user) {

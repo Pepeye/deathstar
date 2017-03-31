@@ -16,8 +16,7 @@ const viewerType = new GraphQLObjectType({
     me: {
       description: 'current logged in user',
       type: GraphQLUser,
-      resolve: (root, args, { user }) => user
-      // resolve: (root, args, { user, loaders }) =>
+      resolve: (root, args, { user, loaders }) => loaders.user.load(user, user._id)
     },
     ...rootFields
   }),

@@ -23,7 +23,7 @@ export default class User {
     this.lastname = data.lastname
 
     // you can only see your own email, and your active status
-    if (viewer && viewer._id.equals(data._id)) {
+    if (viewer && data._id.equals(viewer._id)) {
       this.email = data.email
       this.active = data.active
       this.roles = data.roles
