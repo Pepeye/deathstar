@@ -1,0 +1,34 @@
+query q {
+  viewer {
+    me {
+      ...me
+    }
+    users {
+      edges {
+        node {
+          ...profile
+        }
+      }
+    }
+  }
+}
+
+fragment me on User {
+  id
+  _id
+  firstname
+  lastname
+  email
+  active
+  roles
+  tokens {
+    token
+  }
+}
+
+fragment profile on User {
+  id
+  _id
+  firstname
+  lastname
+}
