@@ -20,7 +20,7 @@
     "babel-eslint": "^7.1.1",
     "babel-jest": "^19.0.0",
     "babel-plugin-transform-flow-strip-types": "^6.22.0",
-    "babel-preset-latest": "^6.22.0",
+    "babel-preset-env": "^1.3.2",
     "babel-preset-stage-0": "^6.22.0",
     "chalk": "^1.1.3",
     "eslint": "^3.16.1",
@@ -50,7 +50,7 @@
     "jsonwebtoken": "^7.3.0",
     "mongoose": "^4.8.5",
     "morgan": "^1.8.1",
-    "node-uuid": "^1.4.7",
-    "relay-mongodb-connection": "^2.1.0"
+    "relay-mongodb-connection": "^2.1.0",
+    "uuid": "^3.0.1"
   }
 }
