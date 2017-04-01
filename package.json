@@ -44,13 +44,16 @@
     "express": "^4.15.0",
     "express-graphql": "^0.6.3",
     "express-jwt": "^5.1.0",
+    "global": "^4.3.1",
     "graphql": "^0.9.1",
     "graphql-relay": "^0.5.1",
     "helmet": "^3.4.1",
     "jsonwebtoken": "^7.3.0",
     "mongoose": "^4.8.5",
     "morgan": "^1.8.1",
+    "react-native-cli": "^2.0.1",
     "relay-mongodb-connection": "^2.1.0",
+    "serverless": "^1.10.1",
     "uuid": "^3.0.1"
   }
 }
