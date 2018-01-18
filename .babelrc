@@ -1,13 +1,4 @@
 {
-  "presets": [
-    [
-      "flow",
-      "env", {
-        "targets": {
-          "browsers": ["last 2 versions", "safari >= 7"]
-        }
-      },
-      "stage-0"
-    ]
-  ]
+  "plugins": ["transform-runtime"],
+	"presets": ["flow", "env", "stage-0"]
 }
